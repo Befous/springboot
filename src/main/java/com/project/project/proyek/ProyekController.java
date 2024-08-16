@@ -43,9 +43,8 @@ public class ProyekController {
 			@RequestParam(required = false) LocalDate tgl_mulai,
 			@RequestParam(required = false) LocalDate tgl_selesai,
 			@RequestParam(required = false) String pimpinan_proyek,
-			@RequestParam(required = false) String keterangan,
-			@RequestParam(required = false) Integer lokasiId) {
-		proyekService.updateProyek(proyekId, nama_proyek, client, tgl_mulai, tgl_selesai, pimpinan_proyek, keterangan, lokasiId);
+			@RequestParam(required = false) String keterangan) {
+		proyekService.updateProyek(proyekId, nama_proyek, client, tgl_mulai, tgl_selesai, pimpinan_proyek, keterangan);
 	}
 	@PutMapping(path = "{proyekId}/lokasi/{lokasiId}")
 	public void menetapkanProyekLokasi(

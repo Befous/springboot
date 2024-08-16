@@ -16,13 +16,15 @@ import jakarta.transaction.Transactional;
 @Service
 public class ProyekService {
 	
-	private final ProyekRepository proyekRepository;
+	private ProyekRepository proyekRepository;
+	private ProyekLokasiRepository proyekLokasiRepository;
 	
 	@Autowired
 	private LokasiRepository lokasiRepository;
-	public ProyekService(ProyekRepository proyekRepository) {
+	public ProyekService(ProyekRepository proyekRepository, ProyekLokasiRepository proyekLokasiRepository) {
 		super();
 		this.proyekRepository = proyekRepository;
+		this.proyekLokasiRepository = proyekLokasiRepository;
 	}
 
 	public List<Proyek> getProyek() {
@@ -45,7 +47,7 @@ public class ProyekService {
 
 	@Transactional
 	public void updateProyek(Integer proyekId, String nama_proyek, String client, LocalDate tgl_mulai,
-			LocalDate tgl_selesai, String pimpinan_proyek, String keterangan, Integer lokasiId) {
+			LocalDate tgl_selesai, String pimpinan_proyek, String keterangan) {
 		Proyek proyek = proyekRepository.findById(proyekId)
 				.orElseThrow(() -> new IllegalStateException(
 						"id tidak ditemukan"));
@@ -86,6 +88,7 @@ public class ProyekService {
 	}
 
 	public void assignProyekLokasi(Integer proyekId, Integer lokasiId) {
+		proyekLokasiRepository.deleteById(proyekId);
 		Set<Lokasi> lokasiSet = null;
 		Proyek proyek = proyekRepository.findById(proyekId).get();
 		Lokasi lokasi = lokasiRepository.findById(lokasiId).get();
