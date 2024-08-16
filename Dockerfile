@@ -11,7 +11,7 @@ COPY . /app
 WORKDIR /app
 
 # Jalankan Maven untuk membuild project
-RUN ./mvnw clean package -DskipTests
+RUN ./mvnw bootJar --no-deamon
 
 # Tahap 2: Run
 FROM openjdk:21-jdk-slim
