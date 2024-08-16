@@ -6,6 +6,6 @@ RUN ./mvnw bootJar --no-deamon
 
 FROM openjdk:21-jdk-slim
 EXPOSE 8080
-COPY --from=build /app/target/*.jar /app/app.jar
+COPY --from=build /build/libs/project-1.jar app.jar
 
 ENTRYPOINT ["java","-jar","/app.jar"]
