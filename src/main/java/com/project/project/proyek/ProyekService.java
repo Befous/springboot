@@ -6,10 +6,12 @@ import java.util.Objects;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import com.project.project.lokasi.Lokasi;
 import com.project.project.lokasi.LokasiRepository;
+import com.project.project.response.Response;
 
 import jakarta.transaction.Transactional;
 
@@ -31,11 +33,17 @@ public class ProyekService {
 		return proyekRepository.findAll();
 	}
 
-	public void addNewProyek(Proyek proyek) {
+	public Response addNewProyek(Proyek proyek) {
 		proyekRepository.save(proyek);
+		// Buat object Response
+	    Response response = new Response();
+	    response.setStatus(HttpStatus.OK.value());
+	    response.setMessage("Berhasil menambahkan proyek baru");
+	    response.setData(proyek);
+		return response;
 	}
 
-	public void deleteProyek(Integer proyekId) {
+	public Response deleteProyek(Integer proyekId) {
 		boolean exists = proyekRepository.existsById(proyekId);
 		
 		if (!exists) {
@@ -43,10 +51,16 @@ public class ProyekService {
 					"id tidak ditemukan");
 		}
 		proyekRepository.deleteById(proyekId);
+		// Buat object Response
+	    Response response = new Response();
+	    response.setStatus(HttpStatus.OK.value());
+	    response.setMessage("Berhasil menghapus proyek");
+	    response.setData(null);
+		return response;
 	}
 
 	@Transactional
-	public void updateProyek(Integer proyekId, String nama_proyek, String client, LocalDate tgl_mulai,
+	public Response updateProyek(Integer proyekId, String nama_proyek, String client, LocalDate tgl_mulai,
 			LocalDate tgl_selesai, String pimpinan_proyek, String keterangan) {
 		Proyek proyek = proyekRepository.findById(proyekId)
 				.orElseThrow(() -> new IllegalStateException(
@@ -85,9 +99,16 @@ public class ProyekService {
 				!Objects.equals(proyek.getKeterangan(), keterangan)) {
 			proyek.setKeterangan(keterangan);
 		}
+		
+		// Buat object Response
+	    Response response = new Response();
+	    response.setStatus(HttpStatus.OK.value());
+	    response.setMessage("Berhasil mengedit proyek");
+	    response.setData(null);
+		return response;
 	}
 
-	public void assignProyekLokasi(Integer proyekId, Integer lokasiId) {
+	public Response assignProyekLokasi(Integer proyekId, Integer lokasiId) {
 		proyekLokasiRepository.deleteById(proyekId);
 		Set<Lokasi> lokasiSet = null;
 		Proyek proyek = proyekRepository.findById(proyekId).get();
@@ -96,5 +117,12 @@ public class ProyekService {
 		lokasiSet.add(lokasi);
 		proyek.setLokasiProyek(lokasiSet);
 		proyekRepository.save(proyek);
+		
+		// Buat object Response
+	    Response response = new Response();
+	    response.setStatus(HttpStatus.OK.value());
+	    response.setMessage("Berhasil assign proyek lokasi");
+	    response.setData(null);
+		return response;
 	}
 }

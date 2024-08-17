@@ -4,7 +4,10 @@ import java.util.List;
 import java.util.Objects;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+
+import com.project.project.response.Response;
 
 import jakarta.transaction.Transactional;
 
@@ -22,11 +25,17 @@ public class LokasiService {
 		return lokasiRepository.findAll();
 	}
 
-	public void addNewLokasi(Lokasi lokasi) {
+	public Response addNewLokasi(Lokasi lokasi) {
 		lokasiRepository.save(lokasi);
+		// Buat object Response
+	    Response response = new Response();
+	    response.setStatus(HttpStatus.OK.value());
+	    response.setMessage("Berhasil menambahkan lokasi baru");
+	    response.setData(lokasi);
+		return response;
 	}
 
-	public void deleteLokasi(Integer lokasiId) {
+	public Response deleteLokasi(Integer lokasiId) {
 		boolean exists = lokasiRepository.existsById(lokasiId);
 		
 		if (!exists) {
@@ -34,10 +43,16 @@ public class LokasiService {
 					"id tidak ditemukan");
 		}
 		lokasiRepository.deleteById(lokasiId);
+		// Buat object Response
+	    Response response = new Response();
+	    response.setStatus(HttpStatus.OK.value());
+	    response.setMessage("Berhasil menghapus lokasi");
+	    response.setData(null);
+		return response;
 	}
 
 	@Transactional
-	public void updateLokasi(Integer lokasiId, String nama_lokasi, String negara, String provinsi, String kota) {
+	public Response updateLokasi(Integer lokasiId, String nama_lokasi, String negara, String provinsi, String kota) {
 		Lokasi lokasi = lokasiRepository.findById(lokasiId)
 				.orElseThrow(() -> new IllegalStateException(
 						"id tidak ditemukan"));
@@ -65,5 +80,12 @@ public class LokasiService {
 				!Objects.equals(lokasi.getKota(), kota)) {
 			lokasi.setKota(kota);
 		}
+		
+		// Buat object Response
+	    Response response = new Response();
+	    response.setStatus(HttpStatus.OK.value());
+	    response.setMessage("Berhasil mengedit lokasi");
+	    response.setData(null);
+		return response;
 	}
 }
