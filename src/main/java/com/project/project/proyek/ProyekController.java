@@ -34,10 +34,12 @@ public class ProyekController {
 	public void tambahProyek(@RequestBody Proyek proyek) {
 		proyekService.addNewProyek(proyek);
 	}
+	@CrossOrigin
 	@DeleteMapping(path = "{proyekId}")
 	public void hapusProyek(@PathVariable("proyekId") Integer proyekId) {
 		proyekService.deleteProyek(proyekId);
 	}
+	@CrossOrigin
 	@PutMapping(path = "{proyekId}")
 	public void editProyek(
 			@PathVariable("proyekId") Integer proyekId,
@@ -49,6 +51,7 @@ public class ProyekController {
 			@RequestParam(required = false) String keterangan) {
 		proyekService.updateProyek(proyekId, nama_proyek, client, tgl_mulai, tgl_selesai, pimpinan_proyek, keterangan);
 	}
+	@CrossOrigin
 	@PutMapping(path = "{proyekId}/lokasi/{lokasiId}")
 	public void menetapkanProyekLokasi(
 			@PathVariable Integer proyekId,

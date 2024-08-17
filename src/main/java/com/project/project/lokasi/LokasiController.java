@@ -3,6 +3,7 @@ package com.project.project.lokasi;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -23,18 +24,22 @@ public class LokasiController {
 		super();
 		this.lokasiService = lokasiService;
 	}
+	@CrossOrigin
 	@GetMapping
 	public List<Lokasi> getLokasi() {
 		return lokasiService.getLokasi();
 	}
+	@CrossOrigin
 	@PostMapping
 	public void tambahLokasi(@RequestBody Lokasi lokasi) {
 		lokasiService.addNewLokasi(lokasi);
 	}
+	@CrossOrigin
 	@DeleteMapping(path = "{lokasiId}")
 	public void hapusLokasi(@PathVariable("lokasiId") Integer lokasiId) {
 		lokasiService.deleteLokasi(lokasiId);
 	}
+	@CrossOrigin
 	@PutMapping(path = "{lokasiId}")
 	public void editLokasi(
 			@PathVariable("lokasiId") Integer lokasiId,
