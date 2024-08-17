@@ -3,6 +3,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -23,10 +24,12 @@ public class ProyekController {
 		super();
 		this.proyekService = proyekService;
 	}
+	@CrossOrigin
 	@GetMapping
 	public List<Proyek> getProyek() {
 		return proyekService.getProyek();
 	}
+	@CrossOrigin
 	@PostMapping
 	public void tambahProyek(@RequestBody Proyek proyek) {
 		proyekService.addNewProyek(proyek);
